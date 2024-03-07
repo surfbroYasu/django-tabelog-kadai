@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}店舗詳細{% endblock %}
+
+{% block content %}
+<h1>{{ restaurant.name }}</h1>
+<img src="" alt="">
+<table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-zyzv">店名<br></th>
+      <th class="tg-j1i3">{{ restaurant.name }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-0pky">読み仮名</td>
+      <td class="tg-0pky"><span style="font-weight:400;font-style:normal">{{ restaurant.kana }}</span></td>
+    </tr>
+    <tr>
+      <td class="tg-0pky">住所</td>
+      <td class="tg-0pky">{{ restaurant.address }}</td>
+    </tr>
+    <tr>
+      <td class="tg-0pky">郵便番号</td>
+      <td class="tg-0pky">{{ restaurant.zip }}</td>
+    </tr>
+    <tr>
+      <td class="tg-0pky">電話番号</td>
+      <td class="tg-0pky">{{ restaurant.phone }}</td>
+    </tr>
+    <tr>
+      <td class="tg-0pky">最低価格</td>
+      <td class="tg-0pky">{{ restaurant.bottom_price }}</td>
+    </tr>
+    <tr>
+      <td class="tg-0pky">最高価格</td>
+      <td class="tg-0pky">{{ restaurant.top_price }}</td>
+    </tr>
+    <tr>
+      <td class="tg-0pky">席数</td>
+      <td class="tg-0pky">{{ restaurant.seats }}</td>
+    </tr>
+  </tbody>
+  </table>
+<button id="openModal">予約</button>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form action="{% url 'reserve' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">予約送信</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // モーダルの表示と非表示を制御
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("openModal");
+  var span = document.getElementsByClassName("close")[0];
+  
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+{% endblock %}

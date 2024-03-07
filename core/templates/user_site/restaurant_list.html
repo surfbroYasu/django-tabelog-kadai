@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}ホーム{% endblock %}
+{% block content %}
+<h1>ホーム</h1>
+
+<h1>商品一覧</h1>
+<table>
+    <thead>
+        <tr>
+          <th>写真</th>
+          <th>店名</th>
+          <th>電話番号</th>
+        </tr>
+    </thead>
+    {% for Restaurant in object_list %}
+    <tr>
+      <td>{{ restaurant.image }}</td>
+      <td>{{ restaurant.name }}</td>
+      <td>{{ restaurant.phone }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

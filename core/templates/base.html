@@ -1,0 +1,36 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <title>{% block title %}Document{% endblock %}</title>
+</head>
+<body>
+    
+  <nav>
+    <div>
+      <img src="" alt="">
+      <!-- ロゴ入れる -->
+    </div>
+    <div>
+      <input type="search" name="search" placeholder="キーワード入力">
+    </div>
+    <div>
+      <button>ログイン</button>
+      <button>サインアップ</button>
+    </div>
+  </nav>
+
+      {% block content %}
+      {% endblock %}
+  
+  <footer>
+    <a href="">利用規約</a>
+    <a href="">会社概要</a>
+    <small>© 2023 samurai 課題002. </small>
+  </footer>
+
+</body>
+</html>
