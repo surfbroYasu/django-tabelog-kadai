@@ -1,33 +1,27 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>利用規約</title>
-</head>
-<body>
-  <h1>利用規約</h1>
-  <nav>
-    <div>
-      <img src="" alt="">
-      <!-- ロゴ入れる -->
-    </div>
-    <div>
-      <input type="search" name="search" placeholder="キーワード入力">
-    </div>
-    <div>
-      <button>ログイン</button>
-      <button>サインアップ</button>
-    </div>
-  </nav>
+{% extends 'base.html' %}
 
-  <main>
-    
-  </main>
+{% block title %}利用規約{% endblock %}
 
-  <footer>
-    <small>© 2023 samurai kadai_002. </small>
-  </footer>
+{% block content %}
+<h1>利用規約</h1>
 
-</body>
-</html>
+{% for section in sections %}
+<h2>第{{ section.section_number }}章 {{ section.description }}</h2>
+<ul>
+    {% for article in section.article_set.all %}
+    <li>
+        <strong>
+          {{ article.article_number }}.
+        </strong>
+        <p>{{ article.content }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+</ul>
+
+<a href="{% url 'top' %}">戻る</a>
+
+{% endblock %}
+
+

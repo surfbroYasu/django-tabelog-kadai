@@ -1,33 +1,50 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>会社概要</title>
-</head>
-<body>
-  <h1>会社概要</h1>  
-  <nav>
-    <div>
-      <img src="" alt="">
-      <!-- ロゴ入れる -->
-    </div>
-    <div>
-      <input type="search" name="search" placeholder="キーワード入力">
-    </div>
-    <div>
-      <button>ログイン</button>
-      <button>サインアップ</button>
-    </div>
-  </nav>
+{% extends 'base.html' %}
 
-  <main>
+{% block title %}会社概要{% endblock %}
 
-  </main>
+{% block content %}
+<h1>会社概要</h1>
 
-  <footer>
-    <small>© 2023 samurai kadai_002. </small>
-  </footer>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>会社名</th>
+      <th>{{ company_overview.name }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>住所</td>
+      <td>{{ company_overview.zip_code }}</td>
+      <td>{{ company_overview.address }}</td>
+    </tr>
+    <tr>
+      <td>代表取締役</td>
+      <td>{{ company_overview.management }}</td>
+    </tr>
+    <tr>
+      <td>電話番号</td>
+      <td>{{ company_overview.phone }}</td>
+    </tr>
+    <tr>
+      <td>資本金</td>
+      <td>{{ company_overview.capital }}</td>
+    </tr>
+    <tr>
+      <td>事業内容</td>
+      <td>{{ company_overview.service_overview }}</td>
+    </tr>
+    <tr>
+      <td>従業員数</td>
+      <td>{{ company_overview.number_of_employees }}</td>
+    </tr>
+    <tr>
+      <td>設立</td>
+      <td>{{ company_overview.date_established }}</td>
+    </tr>
+  </tbody>
+</table>
 
-</body>
-</html>
+<a href="{% url 'top' %}">戻る</a>
+
+{% endblock %}

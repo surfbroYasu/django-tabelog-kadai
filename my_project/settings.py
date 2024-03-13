@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "phonenumber_field",
     "core",
+    "bootstrapform",
 ]
 
 MIDDLEWARE = [
@@ -99,6 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'core.UserProfile'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -118,7 +121,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -126,3 +128,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 画像関連の設定
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media_local'
+
+# ログイン認証
+USER_LOGIN_URL = 'login'
+USER_LOGIN_REDIRECT = 'restaurants'
+USER_LOGOUT_REDIRECT_URL = 'top'

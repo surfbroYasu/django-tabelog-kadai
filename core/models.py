@@ -1,18 +1,23 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
-class UserProfile(models.Model):
+class UserProfile(AbstractUser):
     name = models.CharField(max_length=50)
     kana = models.CharField(max_length=50)
     residence = models.CharField(max_length=50)
     birthday = models.DateField()
-    phone_number = PhoneNumberField(blank=True)
+    phone = models.CharField(max_length=20, blank=True, default='')
+    username = models.CharField(max_length=20, unique=True)
     email_address = models.EmailField()
     occupation = models.CharField(max_length=10)
-    username = models.CharField(max_length=20)
     password = models.CharField(max_length=128) # ハッシュ化パスワードを格納
     subscription_active = models.BooleanField(default=False) 
+
+    REQUIRED_FIELDS = ['password']
+    
+    def get_absolute_url(self):
+        return reverse('signup')
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -25,7 +30,7 @@ class Restaurant(models.Model):
     kana = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     zip_code = models.IntegerField()
-    phone = PhoneNumberField(blank=True)
+    phone = models.CharField(max_length=20, default='0')
     bottom_price = models.IntegerField()
     top_price = models.IntegerField()
     seats = models.IntegerField()
@@ -40,9 +45,17 @@ class Restaurant(models.Model):
 class RestaurantImage(models.Model):
     image = models.ImageField(blank=True, default='noImage.png')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    is_main = models.BooleanField(default=False)
     
+
+    def save(self, *args, **kwargs):
+        # 追加の引数を考慮。変更禁止！
+        if self.is_main:
+            RestaurantImage.objects.filter(restaurant=self.restaurant).exclude(id=self.id).update(is_main=False)
+        super().save(*args, **kwargs)
+        
     def __str__(self):
-        return self.restaurant
+        return self.restaurant.name
 
 class BusinessHour(models.Model):
     name = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
@@ -103,6 +116,10 @@ class Like(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True)
     date_added = models.DateField(auto_now_add=True)
     
+class ReviewImage(models.Model):
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    image = models.ImageField()
+    
 # 運営サイト関連テーブル
 class Admin(models.Model):
     name = models.CharField(max_length=50)
@@ -118,7 +135,7 @@ class CompanyOverview(models.Model):
     date_established = models.DateField()
     capital = models.IntegerField()
     service_overview = models.TextField()
-    phone_number = models.IntegerField()
+    phone = models.CharField(max_length=20, default='0')
     number_of_employees = models.IntegerField()
     date_updated = models.DateField(auto_now_add=True)
 
@@ -131,15 +148,16 @@ class Section(models.Model):
     
 class Article(models.Model):
     content = models.TextField()
+    article_number = models.IntegerField(default=0)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
   
     def __str__(self):
-        return self.section_number
+        return self.section.section_number
   
 class TermsOfService(models.Model):
     date_updated = models.DateField(auto_now_add=True)
     terms_overview = models.TextField()
     
     def __str__(self):
-        return self.name
+        return self.date_updated
     

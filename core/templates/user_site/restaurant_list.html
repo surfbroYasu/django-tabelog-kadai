@@ -2,9 +2,9 @@
 
 {% block title %}ホーム{% endblock %}
 {% block content %}
-<h1>ホーム</h1>
 
-<h1>商品一覧</h1>
+
+<h1>飲食店一覧</h1>
 <table>
     <thead>
         <tr>
@@ -13,12 +13,17 @@
           <th>電話番号</th>
         </tr>
     </thead>
-    {% for Restaurant in object_list %}
-    <tr>
-      <td>{{ restaurant.image }}</td>
-      <td>{{ restaurant.name }}</td>
-      <td>{{ restaurant.phone }}</td>
-    </tr>
+    {% for restaurant in object_list %}
+      <tr>
+          <td>
+              {% if restaurant.id in restaurant_images.keys() %}
+                  <img src="{ restaurant_images[restaurant.id] }" alt="Restaurant Image">
+              {% endif %}
+          </td>
+          <td>{{ restaurant.name }}</td>
+          <td>{{ restaurant.phone }}</td>
+          <!-- 他のレストラン情報を追加 -->
+      </tr>
     {% endfor %}
 </table>
 
